@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: API-GATEWAY
+    
+  cloud:
+    gateway:
+      routes:
+      - id: RECRUITER-FORM
+        uri:
+         lb://RECRUITER-FORM
+        predicates:
+        - Path=/recruiter/**
+        
+      - id: JWT-USER
+        uri:
+         lb://JWT-USER
+        predicates:
+        - Path=/user/**
+        
+        
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+          cors-configurations: 
+            '[/**]':
+              allowed-origins: "*"
+              allowed-methods: "*"
+              allowed-headers: "*"
+server:
+  port: 8888
